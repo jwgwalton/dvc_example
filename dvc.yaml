@@ -1,0 +1,31 @@
+stages:
+  split_data:
+    cmd: python src/split_data.py --raw_data_location=data/raw --train_location=data/train --test_location=data/test
+    deps:
+      - src/split_data.py
+      - data/raw
+    outs:
+      - data/train
+      - data/test/X_test.npy
+      - data/test/y_test.npy
+
+  train:
+    cmd: python src/train.py --train_location=data/train --test_location=data/test
+    deps:
+      - data/train
+      - src/train.py
+    outs:
+    - data/test/y_pred_proba.npy
+  evaluate:
+    cmd: python src/evaluate.py --test_location=data/test
+    deps:
+    - data/test/y_pred_proba.npy
+    - src/evaluate.py
+    metrics:
+    - metrics.json:
+        cache: false
+    plots:
+    - prc.json:
+        cache: false
+        x: recall
+        y: precision
