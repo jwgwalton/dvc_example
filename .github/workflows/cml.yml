@@ -15,7 +15,7 @@ jobs:
 
           # Generate data #TODO: Setup DVC Remote
 
-          python src/get_data.py --data_location=data/raw
+          python src/prepare_data.py --data_location=data/raw
 
           # Run ML workflow as pipeline
           dvc repro
