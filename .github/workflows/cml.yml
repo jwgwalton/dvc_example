@@ -13,9 +13,8 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-          # Generate data #TODO: Setup DVC Remote
-
-          python src/prepare_data.py --data_location=data/raw
+          # Access versioned data from DVC remote
+          dvc pull
 
           # Run ML workflow as pipeline
           dvc repro
