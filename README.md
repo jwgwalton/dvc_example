@@ -7,7 +7,7 @@ Requirements:
 - Ability to identify the best of breed solution to the problem
 
 ## What is this project 
-This repository contains a sample project using CML with DVC to push/pull data from cloud storage and track model metrics. When a pull request is made in this repository, the following will occur:
+This repository contains a sample project using [CML](https://cml.dev/) with [DVC](https://dvc.org/) to push/pull data from cloud storage and track model metrics. When a pull request is made in this repository, the following will occur:
 
     - Github will deploy a runner machine with a specified CML Docker environment
     - DVC will pull data from cloud storage
@@ -38,7 +38,9 @@ DVC pipelines provide md5 hashes of all parts of an ML workflow including data a
 Note that if you clone this project, you will have to configure your own DVC storage and credentials for the example. We suggest the following procedure:
 
 1. Fork the repository and clone to your local workstation. 
-2. Run `python src/prepare_data.py` to generate your own copy of the dataset. After initializing DVC in the project directory and configuring your remote storage, run `dvc add data` and `dvc push` to push your dataset to remote storage.
-3. `git add`, `commit` and `push` to push your DVC configuration to GitHub.
-4. Add your storage credentials as repository secrets.
-5. Copy the workflow file `.gitlab-ci.yml` from this repository to your fork. By default, workflow files are not copied in forks. When you commit this file to your repository, the first workflow should be initiated. 
+2. Run `python src/prepare_data.py` to generate your own copy of the dataset. 
+3. Initialise DVC `dvc init` and setup the remote storage `dvc remote add storage <your bucket>`, `dvc remote default storage`
+4. Push your data to DVC storage `dvc add data/raw`, `dvc push`
+5. `git add`, `commit` and `push` to push your DVC configuration to GitHub.
+6. Add your storage credentials as repository secrets.
+7. Copy the workflow file `.github/workflows/cml.yml` from this repository to your fork. By default, workflow files are not copied in forks. When you commit this file to your repository, the first workflow should be initiated. 

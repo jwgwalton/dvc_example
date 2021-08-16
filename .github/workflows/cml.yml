@@ -32,6 +32,5 @@ jobs:
 
           dvc plots diff --target prc.json --show-vega master > vega.json
 
-
           # Add report to PR
           cml-send-comment report.md
