@@ -47,3 +47,14 @@ Note that if you clone this project, you will have to configure your own DVC sto
 
 
 ## Setting up CML as a runner for Github
+
+We can use Github Actions to run the ML workload, we can also share these workflows between projects. This includes the secrets to minimise the effort of starting a new project within an organisation, https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+
+## DVC Cookie Cutter project template
+This project is an example of an ML project with DVC and CML but there is already a cookie cutter project for creating an opinionated structure for Data Science projects.
+
+```bash
+pip install cookiecutter
+cookiecutter https://github.com/jwgwalton/cookiecutter-data-science            
+```
