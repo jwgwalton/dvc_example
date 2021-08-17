@@ -4,6 +4,9 @@ stages:
     deps:
       - src/split_data.py
       - data/raw
+    params:
+      - split_data.random_state
+      - split_data.test_size
     outs:
       - data/train
       - data/test/X_test.npy
@@ -14,6 +17,9 @@ stages:
     deps:
       - data/train
       - src/train.py
+    params:
+      - train.n_estimators
+      - train.min_split
     outs:
     - data/test/y_pred_proba.npy
   evaluate:

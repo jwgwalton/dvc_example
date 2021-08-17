@@ -4,32 +4,36 @@ stages:
     cmd: python src/train.py --train_location=data/train --test_location=data/test
     deps:
     - path: data/train
-      md5: acf39a4ef5ac5046d24971959f11c77b.dir
-      size: 105904
+      md5: 411c7cba090a0f4cdcac007c2b313162.dir
+      size: 113096
       nfiles: 2
     - path: src/train.py
-      md5: 55a2953a63a00c844a4c85514eb303e2
-      size: 969
+      md5: 6a4553939a37a5d8f9e1e75aacf75891
+      size: 1172
+    params:
+      params.yaml:
+        train.min_split: 64
+        train.n_estimators: 100
     outs:
     - path: data/test/y_pred_proba.npy
-      md5: 3cc10c0396f55b1a2d61bbd409b62b48
-      size: 2416
+      md5: ecc08a886c925b8b9cab52094334d23e
+      size: 1952
   evaluate:
     cmd: python src/evaluate.py --test_location=data/test
     deps:
     - path: data/test/y_pred_proba.npy
-      md5: 3cc10c0396f55b1a2d61bbd409b62b48
-      size: 2416
+      md5: ecc08a886c925b8b9cab52094334d23e
+      size: 1952
     - path: src/evaluate.py
       md5: 2273e309810a37479949a6c67d3c221a
       size: 1312
     outs:
     - path: metrics.json
-      md5: 14b955a2512dfc2d763f1f39db24216b
-      size: 73
+      md5: 5d42a1a57103bffc5761881aa0ffec93
+      size: 72
     - path: prc.json
-      md5: b93c757811866d319ce5b31a210ada18
-      size: 1484
+      md5: 4e7507897e311f5ac2fe710d32f5ce38
+      size: 6896
   split_data:
     cmd: python src/split_data.py --raw_data_location=data/raw --train_location=data/train
       --test_location=data/test
@@ -39,16 +43,20 @@ stages:
       size: 141368
       nfiles: 2
     - path: src/split_data.py
-      md5: 7ff96c4f725726b50a3533c3640bbccf
-      size: 1254
+      md5: be37b5d6ddae36f7810bab7d63d87b5b
+      size: 1485
+    params:
+      params.yaml:
+        split_data.random_state: 20170428
+        split_data.test_size: 0.2
     outs:
     - path: data/test/X_test.npy
-      md5: 9a21870ef2214959f1c0c22f3f17049e
-      size: 34448
+      md5: 5199305f2ee0a34bd8f52beafd15a19b
+      size: 27488
     - path: data/test/y_test.npy
-      md5: f9a827692acfc256e5df8d057c7f26b3
-      size: 1272
+      md5: fd42ff40ed51402bfa1a102e76ddf2aa
+      size: 1040
     - path: data/train
-      md5: acf39a4ef5ac5046d24971959f11c77b.dir
-      size: 105904
+      md5: 411c7cba090a0f4cdcac007c2b313162.dir
+      size: 113096
       nfiles: 2

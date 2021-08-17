@@ -1,0 +1,7 @@
+split_data:
+  test_size: 0.20
+  random_state: 20170428
+
+train:
+  n_estimators: 100
+  min_split: 64

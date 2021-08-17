@@ -1,10 +1,12 @@
 import os
 import argparse
+import random
+import yaml
 import numpy as np
 from sklearn.model_selection import train_test_split
 
 
-def run(raw_data_location, train_location, test_location):
+def run(raw_data_location, train_location, test_location, params):
     """
     Split data into train and test sets
     """
@@ -12,7 +14,9 @@ def run(raw_data_location, train_location, test_location):
     X = np.load(f"{raw_data_location}/X.npy")
     y = np.load(f"{raw_data_location}/y.npy")
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y)
+    random_state = params["random_state"]
+    test_size = params["test_size"]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=random_state, test_size=test_size)
 
     os.makedirs(train_location, exist_ok=True)
     os.makedirs(test_location, exist_ok=True)
@@ -30,4 +34,5 @@ if __name__ == '__main__':
     parser.add_argument("--train_location", action="store", dest="train_location", type=str, required=True, help="Location of training data")
     parser.add_argument("--test_location", action="store", dest="test_location", type=str, required=True, help="Location of test data")
     args = parser.parse_args()
-    run(args.raw_data_location, args.train_location, args.test_location)
+    params = yaml.safe_load(open("params.yaml"))["split_data"]
+    run(args.raw_data_location, args.train_location, args.test_location, params)
