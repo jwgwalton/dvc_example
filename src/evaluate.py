@@ -1,20 +1,16 @@
 import json
-import argparse
-import math
+import yaml
 import numpy as np
 from sklearn import metrics
 
 
-def run(test_location):
-    y_test = np.load(f"{test_location}/y_test.npy")
-    y_pred_proba = np.load(f"{test_location}/y_pred_proba.npy")
+def run(data_location):
+    y_test = np.load(f"{data_location['test_data_location']}/y_test.npy")
+    y_pred_proba = np.load(f"{data_location['test_data_location']}/y_pred_proba.npy")
     # Probability of positive class
     y_pred = y_pred_proba[:, 1]
-    print(len(y_pred))
-    print(y_pred)
-    print(len(y_test))
+
     precision, recall, prc_thresholds = metrics.precision_recall_curve(y_test, y_pred)
-    print(len(precision))
     avg_prec = metrics.average_precision_score(y_test, y_pred)
     roc_auc = metrics.roc_auc_score(y_test, y_pred)
 
@@ -34,7 +30,5 @@ def run(test_location):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--test_location", action="store", dest="test_location", type=str, required=True, help="Location of test data")
-    args = parser.parse_args()
-    run(args.test_location)
+    data_location = yaml.safe_load(open("params.yaml"))["data_location"]
+    run(data_location)

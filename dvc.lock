@@ -1,52 +1,59 @@
 schema: '2.0'
 stages:
   train:
-    cmd: python src/train.py --train_location=data/train --test_location=data/test
+    cmd: python src/train.py
     deps:
     - path: data/train
       md5: 411c7cba090a0f4cdcac007c2b313162.dir
       size: 113096
       nfiles: 2
     - path: src/train.py
-      md5: 6a4553939a37a5d8f9e1e75aacf75891
-      size: 1172
+      md5: 9c3ce7f172e4b8301140550be13759c5
+      size: 952
     params:
       params.yaml:
+        data_location.test_data_location: data/test
+        data_location.train_data_location: data/train
         train.min_split: 64
         train.n_estimators: 100
     outs:
     - path: data/test/y_pred_proba.npy
-      md5: ecc08a886c925b8b9cab52094334d23e
+      md5: 84e5db08c2465464c76fde2a8f6f445b
       size: 1952
   evaluate:
-    cmd: python src/evaluate.py --test_location=data/test
+    cmd: python src/evaluate.py
     deps:
     - path: data/test/y_pred_proba.npy
-      md5: ecc08a886c925b8b9cab52094334d23e
+      md5: 84e5db08c2465464c76fde2a8f6f445b
       size: 1952
     - path: src/evaluate.py
-      md5: 2273e309810a37479949a6c67d3c221a
-      size: 1312
+      md5: f6c73eb0b51ec55d6193b042469d728c
+      size: 1113
+    params:
+      params.yaml:
+        data_location.test_data_location: data/test
     outs:
     - path: metrics.json
-      md5: 5d42a1a57103bffc5761881aa0ffec93
-      size: 72
+      md5: f6afd949caf7d8bb63910c28299709fd
+      size: 73
     - path: prc.json
-      md5: 4e7507897e311f5ac2fe710d32f5ce38
-      size: 6896
+      md5: b3acc15d02086922ab0b4f5c7f36ebac
+      size: 6521
   split_data:
-    cmd: python src/split_data.py --raw_data_location=data/raw --train_location=data/train
-      --test_location=data/test
+    cmd: python src/split_data.py
     deps:
     - path: data/raw
       md5: 3e9c73dbcc77901bab5fe13350342ac1.dir
       size: 141368
       nfiles: 2
     - path: src/split_data.py
-      md5: be37b5d6ddae36f7810bab7d63d87b5b
-      size: 1485
+      md5: 4efb00b1e7b4b57211ff9d7baef3cdb9
+      size: 1189
     params:
       params.yaml:
+        data_location.raw_data_location: data/raw
+        data_location.test_data_location: data/test
+        data_location.train_data_location: data/train
         split_data.random_state: 20170428
         split_data.test_size: 0.2
     outs:
