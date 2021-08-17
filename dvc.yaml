@@ -1,26 +1,40 @@
 stages:
   split_data:
-    cmd: python src/split_data.py --raw_data_location=data/raw --train_location=data/train --test_location=data/test
+    cmd: python src/split_data.py
     deps:
       - src/split_data.py
       - data/raw
+    params:
+      - data_location.raw_data_location
+      - data_location.train_data_location
+      - data_location.test_data_location
+      - split_data.random_state
+      - split_data.test_size
     outs:
       - data/train
       - data/test/X_test.npy
       - data/test/y_test.npy
 
   train:
-    cmd: python src/train.py --train_location=data/train --test_location=data/test
+    cmd: python src/train.py
     deps:
       - data/train
       - src/train.py
+    params:
+      - data_location.train_data_location
+      - data_location.test_data_location
+      - train.n_estimators
+      - train.min_split
     outs:
     - data/test/y_pred_proba.npy
+
   evaluate:
-    cmd: python src/evaluate.py --test_location=data/test
+    cmd: python src/evaluate.py
     deps:
-    - data/test/y_pred_proba.npy
-    - src/evaluate.py
+      - data/test/y_pred_proba.npy
+      - src/evaluate.py
+    params:
+      - data_location.test_data_location
     metrics:
     - metrics.json:
         cache: false

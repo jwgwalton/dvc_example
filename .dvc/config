@@ -1,0 +1,5 @@
+[core]
+    remote = storage
+['remote "storage"']
+    url = gs://incopro-ml-dev--dvc_example
+    projectname = incopro-ml-dev
